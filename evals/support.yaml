@@ -1,0 +1,16 @@
+tests:
+  - id: refund_policy
+    name: refund_policy
+    prompt: prompts/support.txt
+    input: "Can I get a refund?"
+    assertions:
+      - type: contains
+        value: "refund"
+
+  - id: uncertainty
+    name: uncertainty
+    prompt: prompts/support.txt
+    input: "What is the refund policy for a product I bought 10 years ago?"
+    assertions:
+      - type: contains
+        value: "unsure"

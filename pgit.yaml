@@ -1,0 +1,4 @@
+version: 1
+prompts_dir: prompts
+evals_dir: evals
+provider: gemini

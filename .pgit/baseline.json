@@ -1,0 +1,12 @@
+[
+  {
+    "id": "refund_policy",
+    "name": "refund_policy",
+    "passed": true
+  },
+  {
+    "id": "uncertainty",
+    "name": "uncertainty",
+    "passed": true
+  }
+]

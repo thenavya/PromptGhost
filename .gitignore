@@ -1,0 +1,26 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Build and packaging artifacts
+*.egg-info/
+build/
+dist/
+
+# PromptGhost runtime results
+.pgit/results.json
+
+# Environment and secrets
+.env
+.env.*
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
