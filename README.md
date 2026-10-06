@@ -42,3 +42,5 @@
 
 Built with Python and AI.
 
+PromptGhost focuses on behavior-level changes in AI applications.
+
