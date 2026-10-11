@@ -24,3 +24,7 @@ dist/
 # OS files
 .DS_Store
 Thumbs.db
+# Test coverage artifacts
+.coverage
+coverage_report.txt
+htmlcov/
