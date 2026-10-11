@@ -1,6 +1,7 @@
+
 from typing import Literal
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, ConfigDict, model_validator
 
 
 AssertionType = Literal[
@@ -15,9 +16,11 @@ AssertionType = Literal[
 class AssertionDefinition(BaseModel):
     """A single evaluation assertion."""
 
+    model_config = ConfigDict(populate_by_name=True)
+
     type: AssertionType
     value: str | None = None
-    schema: dict | None = None
+    json_schema: dict | None = Field(default=None, alias="schema")
 
     @model_validator(mode="after")
     def validate_assertion(self):
@@ -35,7 +38,7 @@ class AssertionDefinition(BaseModel):
                 )
 
         if self.type == "json_schema":
-            if not self.schema:
+            if not self.json_schema:
                 raise ValueError(
                     "Assertion type 'json_schema' requires a 'schema'."
                 )
