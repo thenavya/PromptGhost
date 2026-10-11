@@ -398,5 +398,7 @@ The project currently includes YAML-based evaluations, configurable assertion ty
 
 PromptGhost is an experimental project intended to help developers identify unintended behavior changes during prompt development. It does not guarantee the correctness, safety, or consistency of model outputs.
 
-**PromptGhost is an actively developed project. Its**
+### Try the Regression Demo
+
+See [`demo/README.md`](demo/README.md) for a step-by-step demonstration of how PromptGhost detects a behavioral regression when a prompt changes.
 
