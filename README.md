@@ -388,7 +388,15 @@
 
 **## Project Status**
 
+## Project Status
 
+PromptGhost is an actively developed developer tool for behavioral testing and regression detection in AI applications.
+
+The project currently includes YAML-based evaluations, configurable assertion types, a Google Gemini provider, behavioral baselines, and CLI-based regression comparisons.
+
+**Current testing status:** 66 tests passing and 95% reported code coverage.
+
+PromptGhost is an experimental project intended to help developers identify unintended behavior changes during prompt development. It does not guarantee the correctness, safety, or consistency of model outputs.
 
 **PromptGhost is an actively developed project. Its**
 
