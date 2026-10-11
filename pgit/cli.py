@@ -14,7 +14,14 @@ app = typer.Typer(
 @app.command()
 def version():
     """Show the PromptGhost version."""
-    print("PromptGhost v0.1.0")
+    from importlib.metadata import version as get_version, PackageNotFoundError
+
+    try:
+        package_version = get_version("promptghost")
+    except PackageNotFoundError:
+        package_version = "0.1.0"
+
+    print(f"PromptGhost v{package_version}")
 
 
 
