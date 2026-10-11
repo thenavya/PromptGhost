@@ -17,11 +17,6 @@ def version():
     print("PromptGhost v0.1.0")
 
 
-@app.command()
-def hello():
-    """Temporary command used to verify the CLI."""
-    print("PromptGhost is working.")
-
 
 @app.command(name="init")
 def init():
