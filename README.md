@@ -90,7 +90,7 @@
 
 
 
-**- Python 3.10 or later**
+**- - Python 3.11 or later**
 
 **- A Google Gemini API key for Gemini-backed evaluations**
 
