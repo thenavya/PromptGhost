@@ -1,404 +1,141 @@
-**# PromptGhost**
+# PromptGhost
 
+> **Git-native behavioral diff for AI applications.**
 
+PromptGhost helps developers detect when changes to an AI prompt cause changes in application behavior.
 
-**> Git-native behavioral diff for AI applications.**
+**Git tells you what changed.**  
+**PromptGhost tells you what happened because it changed.**
 
+## Why PromptGhost?
 
+Traditional Git diffs show changes to files, but they don't explain how those changes affect an AI application's behavior.
 
-**PromptGhost helps developers detect when changes to an AI prompt cause changes in application behavior.**
+PromptGhost adds a behavioral testing workflow for AI prompts, allowing developers to define expected behavior, run evaluations, save a baseline, and identify behavioral regressions.
 
+## How It Works
 
+1. **Initialize** — Set up PromptGhost in your project.
+2. **Test** — Run behavioral tests against your prompts.
+3. **Compare** — Compare current results with the saved baseline.
+4. **Review** — Identify behavioral changes before they reach users.
 
-**Git tells you \*\*what changed\*\*.**  
+## Features
 
-**PromptGhost tells you \*\*what happened because it changed\*\*.**
+- **Behavioral regression testing** for AI prompts.
+- **Baseline comparisons** to detect changes in model behavior.
+- **Readable CLI output** for test results and behavioral differences.
+- **YAML-based evaluations** for defining test cases and assertions.
+- **Google Gemini integration** for running model evaluations.
+- **Git-friendly workflow** designed for existing AI application repositories.
+- **Automated tests and CI** using GitHub Actions.
 
+## Requirements
 
+- Python 3.11 or later
+- A Google Gemini API key for Gemini-backed evaluations
 
-**## The Problem**
+## Installation
 
+Clone the repository and move into the project directory:
 
+```bash
+git clone https://github.com/thenavya/PromptGhost.git
+cd PromptGhost
+```
 
-**Changing an AI prompt can silently change your application's behavior.**
+Install the project:
 
+```bash
+pip install -e .
+```
 
+Check that the CLI is available:
 
-**A normal Git diff can show:**
+```bash
+pgit version
+```
 
+## Configure Gemini
 
+Set your Gemini API key as an environment variable named `GEMINI_API_KEY`.
 
-**```diff**
+On Windows PowerShell:
 
-**- Answer the customer's question.**
+```powershell
+$env:GEMINI_API_KEY="your-api-key"
+```
 
-**+ Answer the customer's question concisely.**
+Replace `your-api-key` with your actual key. Keep API keys private and never commit them to Git.
 
-**```**
+## CLI Commands
 
+| Command | Purpose |
+|---|---|
+| `pgit version` | Display the installed version |
+| `pgit init` | Initialize PromptGhost |
+| `pgit test` | Run behavioral evaluations |
+| `pgit diff` | Compare results against the saved baseline |
+| `pgit commit` | Save the current behavioral baseline |
 
+**Note:** `pgit commit` saves a PromptGhost behavioral baseline; it is not a Git commit.
 
-**But it cannot tell you whether the new prompt caused the AI to break a refund policy, ignore a safety instruction, or produce an unexpected answer.**
+## Example Evaluation
 
+PromptGhost uses YAML to define behavioral tests. A test can specify a prompt, an input, and assertions for the expected output.
 
+```yaml
+tests:
+  - id: refund_policy
+    prompt: prompts/support.txt
+    input: "Can I get a refund?"
+    assertions:
+      - type: contains
+        value: "refund"
+```
 
-**PromptGhost adds behavior-level testing and regression detection to AI applications.**
+This example checks whether the model's response contains the word `refund`.
 
+## Example: Detect a Regression
 
+Imagine a prompt change causes a customer-support assistant to stop mentioning a relevant refund policy.
 
-**## How It Works**
+A traditional file diff can show that the prompt changed. PromptGhost can help reveal that the change also affected the model's response.
 
+See the [regression demo](demo/README.md) for an example.
 
+## Project Structure
 
-**1. Write evaluation cases for your AI prompt.**
+```text
+PromptGhost/
+├── .github/
+│   └── workflows/
+│       └── tests.yml
+├── demo/
+│   └── README.md
+├── prompts/
+├── tests/
+├── .gitignore
+├── LICENSE
+└── README.md
+```
 
-**2. Run the tests against your configured AI provider.**
+The project also contains the Python package and configuration files required to run the CLI.
 
-**3. Save a passing behavioral baseline.**
+## Testing and Quality
 
-**4. Change your prompt and run the tests again.**
+- **66 automated tests passing**
+- **95% test coverage** in the reported local test run
+- **GitHub Actions** workflow for automated testing on pushes to `main` and pull requests
 
-**5. Compare the results to detect regressions.**
+These figures reflect the reported test run and may change as the project evolves.
 
+## Current Scope and Limitations
 
+PromptGhost is a developer-focused prototype for testing and comparing AI prompt behavior. Results depend on the model, evaluation inputs, assertions, and test configuration.
 
-**## Current Features**
+It does not guarantee that every regression will be detected, and it should not be treated as a substitute for comprehensive testing or production monitoring.
 
+## License
 
-
-**- \*\*AI provider integration:\*\* Run evaluations using Google Gemini.**
-
-**- \*\*YAML-based evaluations:\*\* Define test cases outside your application code.**
-
-**- \*\*Behavioral assertions:\*\* Check for required text, forbidden text, exact matches, regular expressions, and JSON schema validity.**
-
-**- \*\*Test results:\*\* See which evaluation cases pass or fail.**
-
-**- \*\*Behavioral baselines:\*\* Save a reference set of evaluation results.**
-
-**- \*\*Regression detection:\*\* Identify regressed, improved, unchanged, new, and removed test cases.**
-
-**- \*\*CLI workflow:\*\* Run tests and compare behavior from the terminal.**
-
-
-
-**## Quick Start**
-
-
-
-**### Requirements**
-
-
-
-**- - Python 3.11 or later**
-
-**- A Google Gemini API key for Gemini-backed evaluations**
-
-
-
-**### Installation**
-
-
-
-**Clone the repository:**
-
-
-
-**```bash**
-
-**git clone https://github.com/thenavya/PromptGhost.git**
-
-**cd PromptGhost**
-
-**```**
-
-
-
-**Create and activate a virtual environment on Windows PowerShell:**
-
-
-
-**```powershell**
-
-**python -m venv .venv**
-
-**.\\.venv\\Scripts\\Activate.ps1**
-
-**```**
-
-
-
-**Install the project:**
-
-
-
-**```powershell**
-
-**pip install -e .**
-
-**```**
-
-
-
-**Set your Gemini API key in PowerShell for the current session:**
-
-
-
-**```powershell**
-
-**$env:GEMINI\_API\_KEY = "YOUR\_GEMINI\_API\_KEY"**
-
-**```**
-
-
-
-**Replace the placeholder with your own API key. Never commit API keys to GitHub.**
-
-
-
-**## Basic Workflow**
-
-
-
-**Run the evaluation tests:**
-
-
-
-**```bash**
-
-**pgit test**
-
-**```**
-
-
-
-**Save the current results as the behavioral baseline:**
-
-
-
-**```bash**
-
-**pgit commit**
-
-**```**
-
-
-
-**Compare the latest results with the saved baseline:**
-
-
-
-**```bash**
-
-**pgit diff**
-
-**```**
-
-
-
-**\*\*Note:\*\* `pgit commit` saves a PromptGhost behavioral baseline; it does not create a Git commit.**
-
-
-
-**## Example: Detecting a Regression**
-
-
-
-**Suppose your original support prompt passes two tests:**
-
-
-
-**```text**
-
-**PASS  refund\_policy**
-
-**PASS  uncertainty**
-
-**```**
-
-
-
-**You change the prompt in a way that causes the refund-policy test to fail.**
-
-
-
-**PromptGhost can report:**
-
-
-
-**```text**
-
-**FAIL  refund\_policy**
-
-**PASS  uncertainty**
-
-**```**
-
-
-
-**After comparing against the saved baseline, the behavioral diff identifies the regression:**
-
-
-
-**```text**
-
-**REGRESSED  refund\_policy**
-
-**UNCHANGED  uncertainty**
-
-**```**
-
-
-
-**This makes prompt-related behavior changes easier to detect before they reach users.**
-
-
-
-**## Evaluation Format**
-
-
-
-**Evaluation cases are defined in YAML.**
-
-
-
-**Example:**
-
-
-
-**```yaml**
-
-**tests:**
-
-&#x20; **- id: refund\_policy**
-
-&#x20;   **prompt: prompts/support.txt**
-
-&#x20;   **input: "Can I get a refund?"**
-
-&#x20;   **assertions:**
-
-&#x20;     **- type: contains**
-
-&#x20;       **value: "refund"**
-
-**```**
-
-
-
-**The available assertion types include:**
-
-
-
-**- `contains`**
-
-**- `not\_contains`**
-
-**- `exact\_match`**
-
-**- `regex`**
-
-**- `json\_schema`**
-
-
-
-**Refer to the repository's `evals/` directory for the project's actual evaluation configuration and examples.**
-
-
-
-**## CLI Commands**
-
-
-
-**| Command | Purpose |**
-
-**|---|---|**
-
-**| `pgit init` | Initialize PromptGhost configuration |**
-
-**| `pgit test` | Run configured behavioral evaluations |**
-
-**| `pgit commit` | Save the current behavioral baseline |**
-
-**| `pgit diff` | Compare current results with the baseline |**
-
-
-
-**## Project Architecture**
-
-
-
-**```text**
-
-**PromptGhost/**
-
-**├── pgit/**
-
-**│   ├── commands/**
-
-**│   ├── core/**
-
-**│   ├── evaluators/**
-
-**│   └── providers/**
-
-**├── evals/**
-
-**├── prompts/**
-
-**├── .pgit/**
-
-**├── pgit.yaml**
-
-**├── pyproject.toml**
-
-**└── README.md**
-
-**```**
-
-
-
-**- `commands/` contains the CLI commands.**
-
-**- `core/` handles configuration, execution, results, storage, and comparison.**
-
-**- `evaluators/` implements behavioral assertions.**
-
-**- `providers/` integrates AI providers.**
-
-**- `evals/` contains evaluation cases.**
-
-**- `prompts/` contains prompt files.**
-
-**- `.pgit/` stores local behavioral results and baselines.**
-
-
-
-**## Why PromptGhost?**
-
-
-
-**Traditional version control tracks source-code changes. AI applications also need a way to understand how those changes affect model behavior.**
-
-
-
-**PromptGhost explores a practical workflow for testing, recording, and comparing that behavior alongside normal development.**
-
-
-
-**## Project Status**
-
-## Project Status
-
-PromptGhost is an actively developed developer tool for behavioral testing and regression detection in AI applications.
-
-The project currently includes YAML-based evaluations, configurable assertion types, a Google Gemini provider, behavioral baselines, and CLI-based regression comparisons.
-
-**Current testing status:** 66 tests passing and 95% reported code coverage.
-
-PromptGhost is an experimental project intended to help developers identify unintended behavior changes during prompt development. It does not guarantee the correctness, safety, or consistency of model outputs.
-
-### Try the Regression Demo
-
-See [`demo/README.md`](demo/README.md) for a step-by-step demonstration of how PromptGhost detects a behavioral regression when a prompt changes.
-
+This project is licensed under the [MIT License](LICENSE).
